@@ -1,6 +1,6 @@
 Gem::Specification.new do |spec|
   spec.name          = "lita-openvpnas"
-  spec.version       = "0.1.0"
+  spec.version       = "0.1.1"
   spec.authors       = ["Jonathan Gnagy"].sort
   spec.email         = ["jgnagy@knuedge.com"]
   spec.description   = "Some basic OpenVPN Access Server interactions for Lita"

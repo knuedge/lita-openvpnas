@@ -1,7 +1,7 @@
 module Lita
   module Handlers
     class Openvpnas < Handler
-      namespace 'OpenVPNAS'
+      namespace 'Openvpnas'
       config :hostname, required: true, type: String
       config :ssh_user, required: false, type: String
       config :sacli_dir, required: false, type: String
