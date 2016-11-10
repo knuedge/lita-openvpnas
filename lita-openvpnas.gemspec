@@ -1,6 +1,6 @@
 Gem::Specification.new do |spec|
   spec.name          = "lita-openvpnas"
-  spec.version       = "0.1.1"
+  spec.version       = "0.1.2"
   spec.authors       = ["Jonathan Gnagy"].sort
   spec.email         = ["jgnagy@knuedge.com"]
   spec.description   = "Some basic OpenVPN Access Server interactions for Lita"
@@ -22,4 +22,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rake"
   spec.add_development_dependency "rack-test"
   spec.add_development_dependency "rspec", '~> 3.0'
+  spec.add_development_dependency 'travis', '~> 1.8'
 end

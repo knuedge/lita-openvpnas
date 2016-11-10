@@ -35,7 +35,7 @@ module Lita
 
         result = begin
           Timeout::timeout(60) do
-            remote.cd 'path_to_sacli'
+            remote.cd path_to_sacli
             # Need to use sudo
             remote.enable_sudo
             # scary...

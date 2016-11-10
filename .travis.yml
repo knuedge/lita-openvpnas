@@ -1,0 +1,18 @@
+language: ruby
+sudo: required
+rvm:
+- 2.2
+- 2.3
+script: bundle exec rake
+before_install:
+- gem update --system
+services:
+- redis-server
+deploy:
+  provider: rubygems
+  api_key:
+    secure: FyYnP9XaDJA6lB8khuhsnHAJdrBSIBx6lSYdooBsP2If/5ZWzJRNIQ6r7myi5bHXA4PJSv5RuTZiNU21hSmuBRiMg7QrH6xFY3Lnis6YRII8Nv60yDMy095wnt3sbtIKgHdRxedCXu8c+MwI5pL2S6UZfu3RYF7OtJz/XvJKPI1xyBfDF2UubUKIAs4CRfH/st1K7+0rBADb3uj0bJbjmBUCujIjIUjblq8nofVEj9bWA/iUEPSJPmnlEVGhOaWGwFTruNcwnvzsu4E2fBoAkNdM+y3IxFn+73gFicnIc3/Ovij0NJZm8IZzrSCFU8oiADoLqA7gqUpUerAwAyA7K0RKWHVyzYscCd1gmkwG8lplJkJupeVIxnIW+nev7geGLsPYN+l5cjlLhKNxfUUn/vjCfaRZXyduop10R6qEqUaSqwLOI7sehhCHH3W4sPmDn3JavmGLa2A0Ueba0ZaZ99xBslxweaEPhnCSE3z0/Oy6mnuJy1dSBVnEQ9iiPT+p4qw6EreEaK9NYknCLfphAeLa2ESy0nbAqSl0QDIlJrDrbHqEQFqr5+RoskAF2Jy69oqsWHpOCU72aC3iJyz1ACgpZMMB1oqKvZjOo9S19aHvvJNtGGSIU74iI/sEZxGpZ+62BQr1aGDEmmbe8kd4f4SDT14aztiLjxUxermvcB4=
+  gem: lita-openvpnas
+  on:
+    tags: true
+    repo: knuedge/lita-openvpnas
