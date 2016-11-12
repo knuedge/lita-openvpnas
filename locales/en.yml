@@ -10,4 +10,4 @@ en:
           active_users:
             working: let me see who is connected.
             failure: The OpenVPN server didn't like my query... ;-(
-            success: "There are %{number} clients connect to the OpenVPN server:"
+            success: "There are %{number} clients connected to the OpenVPN server:"
