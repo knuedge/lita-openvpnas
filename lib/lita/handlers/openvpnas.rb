@@ -79,12 +79,12 @@ module Lita
         clients
       end
 
-      def over_ssh(_user, _host, command, cwd = '/tmp')
+      def over_ssh(user, host, command, cwd = '/tmp')
         exception = nil
 
         remote = Rye::Box.new(
-          ssh_host,
-          user: ssh_user,
+          host,
+          user: user,
           auth_methods: ['publickey'],
           password_prompt: false
         )
