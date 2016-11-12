@@ -63,8 +63,8 @@ module Lita
         clients = extract_clients(result.stdout.join("\n"))
 
         # build a reply
-        response.reply_with_mention t('replies.active_users.failure', number: clients.size.to_s)
-        response.reply '/code ' + clients.each { |client, ip| "#{client} @ #{ip}" }.join("\n")
+        response.reply_with_mention t('replies.active_users.success', number: clients.size.to_s)
+        response.reply '/code ' + clients.each { |c| "#{c[:user]} @ #{c[:ip]}" }.join("\n")
       end
 
       private
