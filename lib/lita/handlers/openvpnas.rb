@@ -11,7 +11,16 @@ module Lita
         :openvpn_as_otp_unlock,
         command: true,
         help: {
-          "openvpn otp unlock <user>" => "Unlock the OTP Authenticator for an OpenVPN AS user."
+          'openvpn otp unlock <user>' => 'Unlock the OTP Authenticator for an OpenVPN AS user.'
+        }
+      )
+
+      route(
+        /(openvpn)\s+(active)\s+(users)/i,
+        :openvpn_as_active_users,
+        command: true,
+        help: {
+          'openvpn active users' => 'List the currently connected OpenVPN users.'
         }
       )
 
@@ -20,10 +29,57 @@ module Lita
         ssh_user = config.ssh_user || 'lita'
         ssh_host = config.hostname
         path_to_sacli = config.sacli_dir || '/usr/local/openvpn_as/scripts'
-        username = response.user.name.split(/\s/).first
 
-        response.reply("#{username}, let me unlock that user's OpenVPN authenticator for you.")
+        response.reply_with_mention t('replies.otp_unlock.working')
 
+        command = "./sacli -u #{user} --lock 0 GoogleAuthLock 2>&1"
+        exception = over_ssh(ssh_user, ssh_host, command, path_to_sacli)[1]
+
+        if exception
+          response.reply_with_mention t('replies.otp_unlock.failure')
+          response.reply '/code ' + exception.message
+        end
+
+        # build a reply
+        response.reply_with_mention t('replies.otp_unlock.success', user: user)
+      end
+
+      def openvpn_as_active_users(response)
+        ssh_user = config.ssh_user || 'lita'
+        ssh_host = config.hostname
+        path_to_sacli = config.sacli_dir || '/usr/local/openvpn_as/scripts'
+
+        response.reply_with_mention t('replies.active_users.working')
+
+        command = './sacli VPNStatus 2>&1'
+        result, exception = over_ssh(ssh_user, ssh_host, command, path_to_sacli)
+
+        if exception
+          response.reply_with_mention t('replies.active_users.failure')
+          response.reply '/code ' + exception.message
+        end
+
+        # Figure out who is connected and what their client IP is
+        clients = extract_clients(result)
+
+        # build a reply
+        response.reply_with_mention t('replies.active_users.failure', number: clients.size.to_s)
+        response.reply '/code ' + clients.each { |client, ip| "#{client} @ #{ip}" }.join("\n")
+      end
+
+      private
+
+      def extract_clients(json_data)
+        clients = []
+        JSON.parse(json_data).values.each do |data|
+          data['client_list'].each do |client|
+            clients << { user: client[0], ip: client[2] }
+          end
+        end
+        clients
+      end
+
+      def over_ssh(_user, _host, command, cwd = '/tmp')
         exception = nil
 
         remote = Rye::Box.new(
@@ -34,14 +90,14 @@ module Lita
         )
 
         result = begin
-          Timeout::timeout(60) do
-            remote.cd path_to_sacli
+          Timeout.timeout(60) do
+            remote.cd cwd
             # Need to use sudo
             remote.enable_sudo
             # scary...
             remote.disable_safe_mode
 
-            remote.execute "./sacli -u #{user} --lock 0 GoogleAuthLock 2>&1"
+            remote.execute command
           end
         rescue Rye::Err => e
           exception = e
@@ -50,14 +106,7 @@ module Lita
         ensure
           remote.disconnect
         end
-
-        if exception
-          response.reply_with_mention "That OpenVPN authenticator didn't seem to unlock... ;-("
-          response.reply "/code " + exception.message
-        end
-
-        # build a reply
-        response.reply_with_mention("That OpenVPN authenticator is now available for #{user}!")
+        [result, exception]
       end
 
       Lita.register_handler(self)

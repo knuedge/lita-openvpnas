@@ -23,3 +23,5 @@ gem "lita-openvpnas"
 #### Unlock the Google Authenticator for a User
     openvpn otp unlock <user>
 
+#### List Currently Connected VPN users
+    openvpn active users

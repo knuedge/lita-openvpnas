@@ -1,0 +1,19 @@
+Documentation:
+  Exclude:
+    - lib/lita/handlers/openvpnas.rb
+
+FileName:
+  Exclude:
+    - lib/lita-openvpnas.rb
+
+Metrics/LineLength:
+  Max: 100
+
+Metrics/AbcSize:
+  Max: 25
+
+Metrics/MethodLength:
+  Max: 25
+
+Metrics/ClassLength:
+  Max: 150

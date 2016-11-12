@@ -2,3 +2,12 @@ en:
   lita:
     handlers:
       openvpnas:
+        replies:
+          otp_unlock:
+            working: let me unlock that user's OpenVPN authenticator for you.
+            failure: That OpenVPN authenticator didn't seem to unlock... ;-(
+            success: "That OpenVPN authenticator is now available for %{user}!"
+          active_users:
+            working: let me see who is connected.
+            failure: The OpenVPN server didn't like my query... ;-(
+            success: "There are %{number} clients connect to the OpenVPN server:"
