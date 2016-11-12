@@ -60,7 +60,7 @@ module Lita
         end
 
         # Figure out who is connected and what their client IP is
-        clients = extract_clients(result)
+        clients = extract_clients(result.stdout)
 
         # build a reply
         response.reply_with_mention t('replies.active_users.failure', number: clients.size.to_s)
