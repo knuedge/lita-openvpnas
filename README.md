@@ -25,3 +25,5 @@ gem "lita-openvpnas"
 
 #### List Currently Connected VPN users
     openvpn active users
+
+User must be members of the vpn_admins lita authorization group.

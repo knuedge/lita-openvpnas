@@ -10,6 +10,7 @@ module Lita
         /(openvpn)\s+(otp)\s+(unlock)\s+(\S+)/i,
         :openvpn_as_otp_unlock,
         command: true,
+        restrict_to: :vpn_admins,
         help: {
           'openvpn otp unlock <user>' => 'Unlock the OTP Authenticator for an OpenVPN AS user.'
         }
@@ -19,6 +20,7 @@ module Lita
         /(openvpn)\s+(active)\s+(users)/i,
         :openvpn_as_active_users,
         command: true,
+        restrict_to: :vpn_admins,
         help: {
           'openvpn active users' => 'List the currently connected OpenVPN users.'
         }
